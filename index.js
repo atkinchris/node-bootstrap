@@ -10,6 +10,7 @@
 const fetch = require('node-fetch')
 const blend = require('@mapbox/blend')
 const fs = require('fs')
+const ProgressBar = require('progress')
 
 const getUrl = (x, y, zoom = 6) => `https://theatremural.officiallondontheatre.com/map-tiles/${zoom}/${x}/${y}.png`
 
@@ -30,13 +31,14 @@ const mergeImages = (images, options) =>
 
 const downloadImage = async () => {
   const images = []
+  const bar = new ProgressBar('[:bar] :percent :etas', { width: 20, total: (HEIGHT + 1) * (WIDTH + 1) })
 
   for (let y = 0; y <= HEIGHT; y += 1) {
     for (let x = 0; x <= WIDTH; x += 1) {
+      bar.tick()
       const url = getUrl(x, y)
       // eslint-disable-next-line no-await-in-loop
       const imageData = await fetch(url).then(res => res.buffer())
-
       images.push({
         buffer: imageData,
         x: x * TILE_SIZE,

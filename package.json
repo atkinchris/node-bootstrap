@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@mapbox/blend": "^2.0.1",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "progress": "^2.0.3"
   }
 }
